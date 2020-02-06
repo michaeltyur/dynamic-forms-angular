@@ -1,12 +1,30 @@
 <div class="container-fluid h-100">
   <div class="row form-row">
-    <div class="col m-3">
+    <div class="col m-3" *ngIf="!controlsLoader">
       <app-dynamic-form [questions]="questions"></app-dynamic-form>
+    </div>
+    <div class="col text-center my-auto" *ngIf="controlsLoader">
+      <div class="spinner-grow text-primary" role="status">
+      </div>
+      <div class="spinner-grow text-secondary" role="status">
+      </div>
+      <div class="spinner-grow text-success" role="status">
+      </div>
+      <div class="spinner-grow text-danger" role="status">
+      </div>
+      <div class="spinner-grow text-warning" role="status">
+      </div>
+      <div class="spinner-grow text-info" role="status">
+      </div>
+      <div class="spinner-grow text-light" role="status">
+      </div>
+      <div class="spinner-grow text-dark" role="status">
+      </div>
     </div>
   </div>
   <div class="row button-row mt-5">
     <div class="col text-center">
-      <button type="button" class="btn btn-success">Load Forms</button>
+      <button type="button" class="btn btn-success" (click)="getForms('test')">Load Forms</button>
     </div>
   </div>
 </div>

@@ -1,81 +1,68 @@
 
 export interface IControl {
-    Id: number;
-    Label: IControlLabel;
-    Type: string;
-    ControlStyle: IControlStyle;
-    DataSource: IDataSource;
-    ValidatorConfig: IValidatorConfig;
-    Parameters: IParameters;
+    id: number;
+    label: IControlLabel;
+    controlType: string;
+    controlStyle: IControlStyle;
+    dataSource: IDataSource;
+    validatorConfig: IValidatorConfig;
+    parameters: IParameters;
+    inputeType:string;
 }
 
 export interface IFormControlObject {
-    Report: IReport;
+    report: IReport;
 }
 
 export interface IReport {
-    Id: number;
-    Title: string;
-    RDL: string;
-    Controls: IControl[];
+    id: number;
+    title: string;
+    rdl: string;
+    controls: IControl[];
 }
 
 export interface IControlBasic extends IControl {
 
-    Id: number;
-    Type: string;
-    ControlStyle: IControlStyle;
-    DataSource: IDataSource;
-    ValidatorConfig: IValidatorConfig;
-    Parameters: IParameters;
-    Label: IControlLabel;
-    ControlType: string;
 }
 
 export interface InputeControl extends IControlBasic {
-    InputType: string;
 }
 
 export interface ISelectControl extends IControlBasic {
-
-}
-export interface ICheckBoxControl extends IControlBasic {
-
 }
 
 export interface IControlStyle {
-    HtmlClass: string;
-    FontColor: string;
-    BackgroundColor: string;
+    htmlClass: string;
+    fontColor: string;
+    backgroundColor: string;
 }
 
 export interface IControlLabel {
-    Label: string;
-    For: string;
+    labelName: string;
+    forControl: string;
 }
 
 export interface IDataSource {
-    Id: string;
-    Data: any[];
+    id: string;
+    data: any[];
 }
 
 export interface IParameters {
-    Id: string;
-    ParamDictionary: { [key: string]: string };
+    id: string;
+    paramDictionary: { [key: string]: string };
 }
 
 export interface IContent {
-    DataSource: string;
+    dataSource: string;
     displayColumn: string;
     orderColumn: string;
     table: string;
 }
 
 export interface IValidatorConfig {
-    CompareTo: string;
-    Restriction: string;
-
-    IsRequired: boolean;
+    compareTo: string;
+    restriction: string;
+    isRequired: boolean;
 }
 
 

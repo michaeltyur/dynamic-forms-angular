@@ -35,6 +35,10 @@ export interface IControlStyle {
     htmlClass: string;
     fontColor: string;
     backgroundColor: string;
+    width:string;
+    height:string;
+    containerBorderStyle:string;
+    containerWidth:string;
 }
 
 export interface IControlLabel {
@@ -44,6 +48,7 @@ export interface IControlLabel {
 
 export interface IDataSource {
     id: string;
+    singleData:any;
     data: any[];
 }
 
@@ -63,6 +68,7 @@ export interface IValidatorConfig {
     compareTo: string;
     restriction: string;
     isRequired: boolean;
+    isNeedValidation: boolean;
 }
 
 

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { IControl, IControlLabel, IControlStyle, IDataSource, IValidatorConfig, IParameters } from 'src/app/shared/models/controls-interfaces';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-report-control',
@@ -9,6 +10,7 @@ import { IControl, IControlLabel, IControlStyle, IDataSource, IValidatorConfig, 
 export class ReportControlComponent implements OnInit {
 
   @Input() control: IControl;
+  @Input() form: FormGroup;
 
   controlLabel: IControlLabel;
   controlStyle: IControlStyle;

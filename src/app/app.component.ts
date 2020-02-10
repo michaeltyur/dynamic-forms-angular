@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { QuestionService } from './shared/services/question.service';
 import { FormsService } from './shared/services/forms.service';
-import { IReport,IContent,ICheckBoxControl,IControlBasic,IDataSource,IParameters,InputeControl,IControlLabel,IControl,IControlStyle,IFormControlObject,ISelectControl,IValidatorConfig } from './shared/models/controls-interfaces';
+import { IReport, IContent, IControlBasic, IDataSource, IParameters, InputeControl, IControlLabel, IControl, IControlStyle, IFormControlObject, ISelectControl, IValidatorConfig } from './shared/models/controls-interfaces';
 
 @Component({
   selector: 'app-root',
@@ -9,32 +8,43 @@ import { IReport,IContent,ICheckBoxControl,IControlBasic,IDataSource,IParameters
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  controlsObj:any;
-  controlsLoader:boolean;
-  questions: any[];
+  report: IReport;
+  controlsLoader: boolean;
   title = 'dynamic-forms';
+  reportNumber: number = 0;
+  error: string;
   constructor(
-    private service: QuestionService,
     private formsService: FormsService
   ) {
-    this.questions = service.getQuestions();
+    this.reportNumber = 1;
+    this.getForms();
   }
 
-  getForms(request: string): void {
-    this.controlsLoader  =true;
-    this.formsService.getForms(request).subscribe(res => {
+  getForms(): void {
+    if (!this.reportNumber) {
+      this.error = "Please select report id";
+      return;
+    }
+    else {
+      this.error = null;
+    }
+    this.reportNumber
+    this.controlsLoader = true;
+    let data = this.reportNumber;
+    this.formsService.getForms(data).subscribe(res => {
       if (res) {
         try {
-          this.controlsObj = <IReport>res["report"];
-        console.log(res);
+          this.report = <IReport>res["report"];
+          this.title =this.report.title;
+          console.log(res);
         } catch (error) {
           debugger;
         }
-        
+
       }
-      this.controlsLoader=false;
-    },error=>{
-      this.controlsLoader=false;
+      this.controlsLoader = false;
+    }, error => {
+      this.controlsLoader = false;
     });
   }
 }

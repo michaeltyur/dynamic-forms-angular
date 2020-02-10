@@ -1,7 +1,10 @@
 <div class="container-fluid h-100">
-  <div class="row form-row">
+  <div class="alert alert-primary mb-3 mt-3 ml-2 mr-2" role="alert">
+    {{title}}
+  </div>
+  <div class="row form-row overflow-auto">
     <div class="col m-3" *ngIf="!controlsLoader">
-      <app-dynamic-form [questions]="questions"></app-dynamic-form>
+      <app-report-form *ngIf="report" [report]="report"></app-report-form>
     </div>
     <div class="col text-center my-auto" *ngIf="controlsLoader">
       <div class="spinner-grow text-primary" role="status">
@@ -22,9 +25,27 @@
       </div>
     </div>
   </div>
-  <div class="row button-row mt-5">
-    <div class="col text-center">
-      <button type="button" class="btn btn-success" (click)="getForms('test')">Load Forms</button>
+  <div class="row">
+    <div class="col">
+      <div 
+      class="errorMessage ml-3 mb-0 align-middle" 
+      *ngIf="error" 
+      style="color: crimson;">
+        {{error}}
+      </div>
+    </div>
+  </div>
+  <div class="row button-row mt-3">
+    <div class="col text-center form-group">
+      <select class="form-control w-50 m-auto" name="report=select" id="" [(ngModel)]="reportNumber">
+        <option disabled value=0>Please select Report ID</option>
+        <option value=1>Report 1</option>
+        <option value=2>Report 2</option>
+        <option value=3>Report 3</option>
+      </select>
+    </div>
+    <div class="col text-center form-group">
+      <button type="button" class="btn btn-success" (click)="getForms()">Load Forms</button>
     </div>
   </div>
 </div>

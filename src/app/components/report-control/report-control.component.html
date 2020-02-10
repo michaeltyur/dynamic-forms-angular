@@ -1,22 +1,63 @@
-<div [formGroup]="form">
+<div 
+*ngIf="form" 
+class="row form-group p-2 ml-auto mr-auto" 
+[ngClass] = "controlStyle.containerBorderStyle"
+[formGroup]="form"
+[style.width.rem]="controlStyle.containerWidth">
 
-  <label [attr.for]="label.forControl">
-    {{label.labelName}}
+<div *ngIf="controlLabel" class="col-5 d-flex flex-column pl-0 pr-0">
+
+  <div 
+  class="errorMessage text-center w-100" 
+  *ngIf="validatorConfig.isNeedValidation && !isValid">
+   is required
+  </div>
+
+  <label class="text-center" [attr.for]="controlLabel.forControl">
+    {{controlLabel.labelName}}
   </label>
+</div>
 
-  <div [ngSwitch]="control.controlType">
 
-    <input *ngSwitchCase="'input'" [formControlName]="control.id" [id]="control.id" [type]="control.inputType">
+  <div [ngSwitch]="control.controlType" class="col d-flex justify-content-center" style= "align-self: center">
 
-    <select *ngSwitchCase="'select'" [id]="control.id" [formControlName]="control.id">
+    <!-- INPUT -->
+    <input 
+    *ngSwitchCase="'input'" 
+    [formControlName]="control.id" 
+    [id]="control.id" 
+    [type]="control.inputType"
+    class="col" 
+    [class]="controlStyle.htmlClass" 
+    [value]="dataSource.singleData" 
+    [style.width.px]="controlStyle.width"
+    [style.height.px]="controlStyle.height">
+
+    <!-- SELECT -->
+    <select *ngSwitchCase="'select'" [id]="control.id" [formControlName]="control.id" class="col"
+      [class]="controlStyle.htmlClass" [multiple]="parameters.paramDictionary['multiple'] || false"
+      [style.width.px]="controlStyle.width" [style.height.px]="controlStyle.height">
       <option *ngFor="let data of dataSource.data">
         {{data}}
       </option>
     </select>
 
+    <!-- DATEPICKER -->
+    <form *ngSwitchCase="'datepicker'" class="col pl-0 pr-0">
+      <div class="form-group">
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-mm-dd"
+                 name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+              <i class="fa fa-calendar-alt fa-lg"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
 
-  <div class="errorMessage" *ngIf="!isValid">
-    {{label.labelName}} is required
-  </div>
+
+
 </div>

@@ -12,8 +12,9 @@ export class FormsService {
 
   constructor(private http: HttpClient) { }
 
-  getForms(request: string): Observable<IFormControlObject> {
-    let url = "/api/DynamicForms/GetForms?request=" + request;
+  getForms(requestNumber: number): Observable<IFormControlObject> {
+    let url = "/api/DynamicForms/GetForms?request=" + requestNumber;
     return this.http.get<IFormControlObject>(url);
   }
+  
 }

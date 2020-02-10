@@ -3,17 +3,15 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule }          from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
-import { DynamicFormQuestionComponent } from './components/dynamic-form-question/dynamic-form-question.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReportControlComponent } from './components/report-control/report-control.component';
 import { ReportFormComponent } from './components/report-form/report-form.component';
+import { FormsModule } from '@angular/forms';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DynamicFormComponent,
-    DynamicFormQuestionComponent,
     ReportControlComponent,
     ReportFormComponent
   ],
@@ -21,7 +19,9 @@ import { ReportFormComponent } from './components/report-form/report-form.compon
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

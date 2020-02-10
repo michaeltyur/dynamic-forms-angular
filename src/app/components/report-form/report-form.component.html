@@ -1,16 +1,13 @@
-<div>
-    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+<form (ngSubmit)="onSubmit()" [formGroup]="form" >
   
-      <div *ngFor="let question of questions" class="form-row">
-        <app-question [question]="question" [form]="form"></app-question>
-      </div>
-  
-      <div class="form-row">
-        <button type="submit" [disabled]="!form.valid">Save</button>
-      </div>
-    </form>
-  
-    <div *ngIf="payLoad" class="form-row">
-      <strong>Saved the following values</strong><br>{{payLoad}}
+  <div class="row h-100 w-100 m-0 d-flex flex-row">
+
+    <div class="col text-center m-1" *ngFor="let control of report.controls" >
+        <app-report-control [control]="control" [form]="form"></app-report-control>
     </div>
+
+    <!-- <div class="form-row">
+        <button type="submit" [disabled]="!form.valid">Save</button>
+      </div> -->
   </div>
+</form>

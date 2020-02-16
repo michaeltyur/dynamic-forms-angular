@@ -17,6 +17,7 @@ export class ReportControlComponent implements OnInit {
   dataSource: IDataSource;
   validatorConfig: IValidatorConfig;
   parameters: IParameters;
+  orderNumber:number;
 
   constructor() { }
 

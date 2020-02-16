@@ -1,6 +1,7 @@
 
 export interface IControl {
     id: number;
+    orderNumber:number;
     label: IControlLabel;
     controlType: string;
     controlStyle: IControlStyle;

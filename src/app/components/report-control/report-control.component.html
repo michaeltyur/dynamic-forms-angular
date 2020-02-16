@@ -4,22 +4,26 @@ class="row form-group p-2 ml-auto mr-auto"
 [ngClass] = "controlStyle.containerBorderStyle"
 [formGroup]="form"
 [style.width.rem]="controlStyle.containerWidth">
+<span class="badge control-order-number badge-pill badge-warning">{{control.orderNumber}}</span>
 
-<div *ngIf="controlLabel" class="col-5 d-flex flex-column pl-0 pr-0">
+<div *ngIf="controlLabel" class="col-4 d-flex flex-column pl-0 pr-0">
 
+  <!-- Error Message -->
   <div 
   class="errorMessage text-center w-100" 
   *ngIf="validatorConfig.isNeedValidation && !isValid">
    is required
   </div>
-
+  
+  <!-- Label -->
   <label class="text-center" [attr.for]="controlLabel.forControl">
     {{controlLabel.labelName}}
   </label>
 </div>
 
 
-  <div [ngSwitch]="control.controlType" class="col d-flex justify-content-center" style= "align-self: center">
+
+    <div [ngSwitch]="control.controlType" class="col pl-0 d-flex justify-content-center" style= "align-self: center">
 
     <!-- INPUT -->
     <input 

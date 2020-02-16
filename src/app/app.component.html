@@ -37,11 +37,8 @@
   </div>
   <div class="row button-row mt-3">
     <div class="col text-center form-group">
-      <select class="form-control w-50 m-auto" name="report=select" id="" [(ngModel)]="reportNumber">
-        <option disabled value=0>Please select Report ID</option>
-        <option value=1>Report 1</option>
-        <option value=2>Report 2</option>
-        <option value=3>Report 3</option>
+      <select class="form-control w-50 m-auto" name="report=select" id="" [(ngModel)]="reportTitle">
+        <option [value]="item" *ngFor="let item of reportsTitles">{{item}}</option>
       </select>
     </div>
     <div class="col text-center form-group">

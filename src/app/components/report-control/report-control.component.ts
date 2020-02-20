@@ -1,6 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { IControl, IControlLabel, IControlStyle, IDataSource, IValidatorConfig, IParameters } from 'src/app/shared/models/controls-interfaces';
+import { Component, OnInit, Input, EventEmitter } from '@angular/core';
+import { Control, ControlLabel, ControlStyle, DataSource, ValidatorConfig, Parameters, Relationship } from 'src/app/shared/models/controls-interfaces';
 import { FormGroup } from '@angular/forms';
+import { SelectService } from 'src/app/shared/services/select.service';
+import { SelectEmitObject } from 'src/app/shared/models/selectEmitObject';
 
 @Component({
   selector: 'app-report-control',
@@ -9,26 +11,52 @@ import { FormGroup } from '@angular/forms';
 })
 export class ReportControlComponent implements OnInit {
 
-  @Input() control: IControl;
+  @Input() control: Control;
   @Input() form: FormGroup;
 
-  controlLabel: IControlLabel;
-  controlStyle: IControlStyle;
-  dataSource: IDataSource;
-  validatorConfig: IValidatorConfig;
-  parameters: IParameters;
-  orderNumber:number;
+  controlLabel: ControlLabel;
+  controlStyle: ControlStyle;
+  dataSource: DataSource;
+  validatorConfig: ValidatorConfig;
+  parameters: Parameters;
+  orderNumber: number;
+  relationships: Relationship[];
+  selectData: any[];
+  selectSelected: number = 0;
 
-  constructor() { }
+  constructor(private selectService: SelectService) { }
 
   ngOnInit() {
     if (this.control) {
-      this.control = <IControl>this.control;
-      this.controlLabel = <IControlLabel>this.control.label;
-      this.controlStyle = <IControlStyle>this.control.controlStyle;
-      this.dataSource = <IDataSource>this.control.dataSource;
-      this.validatorConfig = <IValidatorConfig>this.control.validatorConfig;
-      this.parameters = <IParameters>this.control.parameters;
+      this.control = <Control>this.control;
+      this.controlLabel = <ControlLabel>this.control.label;
+      this.controlStyle = <ControlStyle>this.control.controlStyle;
+      this.dataSource = <DataSource>this.control.dataSource;
+      this.validatorConfig = <ValidatorConfig>this.control.validatorConfig;
+      this.parameters = <Parameters>this.control.parameters;
+      //this.selectData = this.control.dataSource.data;
+      
+      // Emitters
+      this.selectService.selectDataResetEmitter$.subscribe(()=>this.selectDataReset());
+      this.selectService.selectDataFilterEmitter$.subscribe((data)=>this.selectDataFilter(data));
+    }
+  }
+
+  setRelationShips(): void {
+    let data = new SelectEmitObject(this.control.id, this.selectSelected);
+    this.selectService.setRelationShipsEmmitter$.emit(data);
+  }
+
+  selectDataReset(): void {
+    this.selectData = this.control.dataSource.data;
+  }
+
+  selectDataFilter(indexs: number[]): void {
+    if (indexs) {
+      this.selectData = [];
+      indexs.forEach(element => {
+        this.selectData.push(this.control.dataSource.data[element]);
+      });
     }
   }
 

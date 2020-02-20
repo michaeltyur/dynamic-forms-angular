@@ -1,38 +1,46 @@
 
-export interface IControl {
+export interface Control {
     id: number;
     orderNumber:number;
-    label: IControlLabel;
+    label: ControlLabel;
     controlType: string;
-    controlStyle: IControlStyle;
-    dataSource: IDataSource;
-    validatorConfig: IValidatorConfig;
-    parameters: IParameters;
-    inputeType:string;
+    controlStyle: ControlStyle;
+    dataSource: DataSource;
+    validatorConfig: ValidatorConfig;
+    parameters: Parameters;
+    inputType:string;
+    bindingData:any;
 }
 
-export interface IFormControlObject {
-    report: IReport;
+export interface FormControlObject {
+    report: Report;
+    relationshipsList:Relationship[];
 }
 
-export interface IReport {
+export interface Report {
     id: number;
     title: string;
     rdl: string;
-    controls: IControl[];
+    controls: Control[];
+    relationshipsList: Relationship[];
 }
 
-export interface IControlBasic extends IControl {
+export interface ControlBasic extends Control {
 
 }
 
-export interface InputeControl extends IControlBasic {
+export interface nputeControl extends ControlBasic {
 }
 
-export interface ISelectControl extends IControlBasic {
+export interface SelectControl extends ControlBasic {
 }
 
-export interface IControlStyle {
+export interface DatePickerControl extends ControlBasic {
+    bindingData:Date;
+}
+
+
+export interface ControlStyle {
     htmlClass: string;
     fontColor: string;
     backgroundColor: string;
@@ -42,34 +50,45 @@ export interface IControlStyle {
     containerWidth:string;
 }
 
-export interface IControlLabel {
+export interface ControlLabel {
     labelName: string;
     forControl: string;
 }
 
-export interface IDataSource {
+export interface DataSource {
     id: string;
     singleData:any;
     data: any[];
 }
 
-export interface IParameters {
+export interface Parameters {
     id: string;
     paramDictionary: { [key: string]: string };
 }
 
-export interface IContent {
+export interface Content {
     dataSource: string;
     displayColumn: string;
     orderColumn: string;
     table: string;
 }
 
-export interface IValidatorConfig {
+export interface ValidatorConfig {
     compareTo: string;
     restriction: string;
     isRequired: boolean;
     isNeedValidation: boolean;
+    params: { [key: string]: string };
 }
 
-
+export interface Relationship
+{
+    ControlID: number;
+    FKControlID: number;
+    FKValuesIDs: RelationshipValue[];
+}
+export interface RelationshipValue
+{
+    ControlValueID: number;
+    FKControlValueID: number;
+}

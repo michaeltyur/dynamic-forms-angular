@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsService } from './shared/services/forms.service';
 import { IReport, IContent, IControlBasic, IDataSource, IParameters, InputeControl, IControlLabel, IControl, IControlStyle, IFormControlObject, ISelectControl, IValidatorConfig } from './shared/models/controls-interfaces';
+import { NbThemeService } from '@nebular/theme';
 
 @Component({
   selector: 'app-root',
@@ -13,28 +14,37 @@ export class AppComponent implements OnInit {
   title = 'dynamic-forms';
   reportsTitles: string[] = []
   reportTitle: string;
+  reportID;
   error: string;
+  currentTheme = "cosmic";
   constructor(
-    private formsService: FormsService
+    private formsService: FormsService,
+    private themeService: NbThemeService
   ) {
     //this.getForms();
   }
   ngOnInit() {
+    this.setTheme();
     this.getReportsTitles();
+  }
+
+  setTheme():void{
+    this.themeService.changeTheme(this.currentTheme.toLowerCase());
   }
 
   getReportsTitles(): void {
     this.formsService.getReportsTitles().subscribe((res: string[]) => {
       if (res) {
         this.reportsTitles = res;
-        this.reportTitle = this.reportsTitles[0];
+        this.reportID = 1;
+       // this.reportID = this.reportsTitles[0];
         this.getForms();
       }
     })
   }
 
   getForms(): void {
-    if (!this.reportTitle) {
+    if (!this.reportID) {
       this.error = "Please select report";
       return;
     }
@@ -42,7 +52,8 @@ export class AppComponent implements OnInit {
       this.error = null;
     }
     this.controlsLoader = true;
-    let data = this.reportTitle;
+    let data = this.reportID;
+
     this.formsService.getForms(data).subscribe(res => {
       if (res) {
         try {
@@ -80,6 +91,10 @@ export class AppComponent implements OnInit {
       minOrderNumber = Number.MAX_VALUE;
     }
     return resultArray;
+  }
+
+  testDates():void{
+
   }
 
 }

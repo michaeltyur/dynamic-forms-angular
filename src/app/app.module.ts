@@ -8,6 +8,9 @@ import { ReportControlComponent } from './components/report-control/report-contr
 import { ReportFormComponent } from './components/report-form/report-form.component';
 import { FormsModule } from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NbThemeModule, NbLayoutModule, NbSelectModule, NbCardModule, NbButtonModule, NbToastrModule, NbDatepickerModule } from '@nebular/theme';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,16 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     HttpClientModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    BrowserAnimationsModule,
+    NbThemeModule.forRoot({ name: 'cosmic' }),
+    NbLayoutModule,
+    NbEvaIconsModule,
+    NbSelectModule,
+    NbCardModule,
+    NbButtonModule,
+    NbToastrModule.forRoot(),
+    NbDatepickerModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

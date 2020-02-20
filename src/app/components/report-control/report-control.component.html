@@ -1,62 +1,80 @@
-<div 
-*ngIf="form" 
-class="row form-group p-2 ml-auto mr-auto" 
-[ngClass] = "controlStyle.containerBorderStyle"
-[formGroup]="form"
-[style.width.rem]="controlStyle.containerWidth">
-<span class="badge control-order-number badge-pill badge-warning">{{control.orderNumber}}</span>
+<div *ngIf="form" class="row form-group p-2 ml-auto mr-auto" [ngClass]="controlStyle.containerBorderStyle"
+  [formGroup]="form" [style.width.rem]="controlStyle.containerWidth">
+  <span class="badge control-order-number badge-pill badge-warning">{{control.orderNumber}}</span>
 
-<div *ngIf="controlLabel" class="col-4 d-flex flex-column pl-0 pr-0">
+  <div *ngIf="controlLabel" class="col-4 d-flex flex-column justify-content-center pl-0 mr-1">
 
-  <!-- Error Message -->
-  <div 
-  class="errorMessage text-center w-100" 
-  *ngIf="validatorConfig.isNeedValidation && !isValid">
-   is required
+    <!-- Error Message -->
+    <div class="errorMessage text-center w-100" *ngIf="validatorConfig.isNeedValidation && !form.valid">
+      is required
+    </div>
+
+    <!-- Label -->
+    <label class="text-center" [attr.for]="controlLabel.forControl">
+      {{controlLabel.labelName}}
+    </label>
   </div>
-  
-  <!-- Label -->
-  <label class="text-center" [attr.for]="controlLabel.forControl">
-    {{controlLabel.labelName}}
-  </label>
-</div>
 
 
 
-    <div [ngSwitch]="control.controlType" class="col pl-0 d-flex justify-content-center" style= "align-self: center">
+  <div [ngSwitch]="control.controlType" class="col pl-0 d-flex justify-content-center" style="align-self: center">
 
     <!-- INPUT -->
-    <input 
-    *ngSwitchCase="'input'" 
-    [formControlName]="control.id" 
-    [id]="control.id" 
-    [type]="control.inputType"
-    class="col" 
-    [class]="controlStyle.htmlClass" 
-    [value]="dataSource.singleData" 
-    [style.width.px]="controlStyle.width"
-    [style.height.px]="controlStyle.height">
+    <input *ngSwitchCase="'input'" [formControlName]="control.id" [id]="control.id" [type]="control.inputType"
+      class="col" [class]="controlStyle.htmlClass" [value]="dataSource.singleData" [style.width.px]="controlStyle.width"
+      [style.height.px]="controlStyle.height">
 
-    <!-- SELECT -->
-    <select *ngSwitchCase="'select'" [id]="control.id" [formControlName]="control.id" class="col"
-      [class]="controlStyle.htmlClass" [multiple]="parameters.paramDictionary['multiple'] || false"
-      [style.width.px]="controlStyle.width" [style.height.px]="controlStyle.height">
-      <option *ngFor="let data of dataSource.data">
-        {{data}}
+
+    <!-- SELECT  [multiple] = "!parameters.paramDictionary['multiple']"-->
+    <select 
+    *ngIf="control.controlType==='select' && parameters.paramDictionary['multiple']" 
+    [id]="control.id" 
+    [formControlName]="control.id" 
+    class="col"
+    [class]="controlStyle.htmlClass" 
+    multiple
+    [style.width.px]="controlStyle.width" 
+    [style.height.px]="controlStyle.height"
+    [(ngModel)]="selectSelected"
+    (change)="setRelationShips()">
+      <option *ngFor="let item of selectData ; let i = index" [value]=i>
+        {{item}}
+      </option>
+    </select>
+
+    <select 
+    *ngIf="control.controlType==='select' && !parameters.paramDictionary['multiple']"
+    [id]="control.id" 
+    [formControlName]="control.id" 
+    class="col"
+    [class]="controlStyle.htmlClass" 
+    [style.width.px]="controlStyle.width" 
+    [style.height.px]="controlStyle.height"
+    [(ngModel)]="selectSelected"
+    (change)="setRelationShips()">
+      <option *ngFor="let item of selectData ; let i = index" [value]=i>
+        {{item}}
       </option>
     </select>
 
     <!-- DATEPICKER -->
     <form *ngSwitchCase="'datepicker'" class="col pl-0 pr-0">
       <div class="form-group">
+
+        <!-- <input nbInput placeholder="{{controlLabel.labelName}}" [name]="control.orderNumber" [nbDatepicker]="stam">
+        <nb-datepicker   #stam></nb-datepicker> -->
+
         <div class="input-group">
-          <input class="form-control" placeholder="yyyy-mm-dd"
-                 name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
+
+          <input class="form-control" placeholder="dd-MM-yyyy"
+                 name="dp" [(ngModel)]="control.bindingData" ngbDatepicker #d="ngbDatepicker" firstDayOfWeek="7">
+
           <div class="input-group-append">
             <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
               <i class="fa fa-calendar-alt fa-lg"></i>
             </button>
           </div>
+
         </div>
       </div>
     </form>

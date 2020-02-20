@@ -17,8 +17,8 @@ export class FormsService {
     return this.http.get<string[]>(url);
   }
 
-  getForms(reportTitle: string): Observable<IFormControlObject> {
-    let url = "/api/DynamicForms/GetForms?request=" + reportTitle;
+  getForms(reportID: number): Observable<IFormControlObject> {
+    let url = "/api/DynamicForms/GetForms?request=" + reportID;
     return this.http.get<IFormControlObject>(url);
   }
   

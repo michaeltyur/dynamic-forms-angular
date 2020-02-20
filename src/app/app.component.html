@@ -1,48 +1,94 @@
-<div class="container-fluid h-100">
-  <div class="alert alert-primary mb-3 mt-3 ml-2 mr-2" role="alert">
-    {{title}}
-  </div>
-  <div class="row form-row overflow-auto">
-    <div class="col m-3" *ngIf="!controlsLoader">
-      <app-report-form *ngIf="report" [report]="report"></app-report-form>
-    </div>
-    <div class="col text-center my-auto" *ngIf="controlsLoader">
-      <div class="spinner-grow text-primary" role="status">
-      </div>
-      <div class="spinner-grow text-secondary" role="status">
-      </div>
-      <div class="spinner-grow text-success" role="status">
-      </div>
-      <div class="spinner-grow text-danger" role="status">
-      </div>
-      <div class="spinner-grow text-warning" role="status">
-      </div>
-      <div class="spinner-grow text-info" role="status">
-      </div>
-      <div class="spinner-grow text-light" role="status">
-      </div>
-      <div class="spinner-grow text-dark" role="status">
+<nb-layout>
+
+  <nb-layout-header fixed>
+    <div class="row">
+      <div class="col text-left">
+        <nb-select placeholder="Select Theme" [(selected)]="currentTheme" (selectedChange)="setTheme()">
+          <nb-option value="default">Light</nb-option>
+          <nb-option value="cosmic">Cosmic</nb-option>
+          <nb-option value="corporate">Corporate</nb-option>
+          <nb-option value="dark">Dark</nb-option>
+        </nb-select>
       </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <div 
-      class="errorMessage ml-3 mb-0 align-middle" 
-      *ngIf="error" 
-      style="color: crimson;">
-        {{error}}
-      </div>
-    </div>
-  </div>
-  <div class="row button-row mt-3">
-    <div class="col text-center form-group">
-      <select class="form-control w-50 m-auto" name="report=select" id="" [(ngModel)]="reportTitle">
-        <option [value]="item" *ngFor="let item of reportsTitles">{{item}}</option>
-      </select>
-    </div>
-    <div class="col text-center form-group">
-      <button type="button" class="btn btn-success" (click)="getForms()">Load Forms</button>
-    </div>
-  </div>
-</div>
+  </nb-layout-header>
+
+  <nb-layout-column>
+
+    <nb-card class="h-100">
+
+      <nb-card-header>
+        <div class="row">
+          <div class="col">
+            {{title}}
+          </div>
+        </div>
+          <!-- Spinner -->
+          <div class="col text-center my-auto" *ngIf="controlsLoader">
+            <div class="spinner-grow text-primary" role="status">
+            </div>
+            <div class="spinner-grow text-secondary" role="status">
+            </div>
+            <div class="spinner-grow text-success" role="status">
+            </div>
+            <div class="spinner-grow text-danger" role="status">
+            </div>
+            <div class="spinner-grow text-warning" role="status">
+            </div>
+            <div class="spinner-grow text-info" role="status">
+            </div>
+            <div class="spinner-grow text-light" role="status">
+            </div>
+            <div class="spinner-grow text-dark" role="status">
+            </div>
+          </div>
+      </nb-card-header>
+
+      <nb-card-body style="min-height: 70%;">
+        <div class="row form-row">
+          <!-- Controls  -->
+          <div class="col m-3" *ngIf="!controlsLoader">
+            <app-report-form *ngIf="report" [report]="report"></app-report-form>
+          </div>
+
+        
+        </div>
+      </nb-card-body>
+
+      <nb-card-footer>
+        <!-- Error Mesage  -->
+        <div class="row">
+          <div class="col">
+            <div class="errorMessage ml-3 mb-0 align-middle" *ngIf="error" style="color: crimson;">
+              {{error}}
+            </div>
+          </div>
+        </div>
+        <div class="row button-row mt-3">
+
+          <!-- Form Selector  -->
+          <div class="col text-center form-group">
+            <nb-select placeholder="Select Report" [(ngModel)]="reportID" (selectedChange)="getForms()">
+              <nb-option [value]="i+1" *ngFor="let item of reportsTitles; let i = index">{{item}}</nb-option>
+            </nb-select>
+          </div>
+
+          <div class="col">
+            <button nbButton outline status="success">Test date validator</button>
+          </div>
+
+        </div>
+
+      </nb-card-footer>
+
+    </nb-card>
+
+
+
+  </nb-layout-column>
+
+  <nb-layout-footer fixed>
+    <!-- Insert footer here -->All Right reserved blya...
+  </nb-layout-footer>
+
+</nb-layout>

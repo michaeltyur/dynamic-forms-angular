@@ -5,7 +5,7 @@
   <div *ngIf="controlLabel" class="col-4 d-flex flex-column justify-content-center pl-0 mr-1">
 
     <!-- Error Message -->
-    <div class="errorMessage text-center w-100" *ngIf="validatorConfig.isNeedValidation && !form.valid">
+    <div class="errorMessage text-center w-100" *ngIf=" validatorConfig && validatorConfig.isNeedValidation && !form.valid">
       is required
     </div>
 
@@ -35,7 +35,7 @@
     multiple
     [style.width.px]="controlStyle.width" 
     [style.height.px]="controlStyle.height"
-    [(ngModel)]="selectSelected"
+    [(ngModel)]="selectSelectedArray"
     (change)="setRelationShips()">
       <option *ngFor="let item of selectData ; let i = index" [value]=i>
         {{item}}
@@ -50,7 +50,7 @@
     [class]="controlStyle.htmlClass" 
     [style.width.px]="controlStyle.width" 
     [style.height.px]="controlStyle.height"
-    [(ngModel)]="selectSelected"
+    [(ngModel)]="selectSelectedArray[0]"
     (change)="setRelationShips()">
       <option *ngFor="let item of selectData ; let i = index" [value]=i>
         {{item}}

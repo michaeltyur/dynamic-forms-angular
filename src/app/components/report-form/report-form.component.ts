@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Report, Control, Relationship } from 'src/app/shared/models/controls-interfaces';
+import { Report, Control, Relationship, SelectesFilteredData } from 'src/app/shared/models/controls-interfaces';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { NbToastrService } from '@nebular/theme';
 import { SelectService } from 'src/app/shared/services/select.service';
@@ -17,7 +17,7 @@ export class ReportFormComponent implements OnInit {
   form: FormGroup;
   controls: Control[];
   relationShipsList: Relationship[];
-  selectDataArray = [];
+  selectDataArray: SelectesFilteredData[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -32,7 +32,12 @@ export class ReportFormComponent implements OnInit {
 
       // Data for selects
       this.report.controls.forEach(element => {
-        this.selectDataArray.push(element.dataSource.data);
+        if (element.controlType === ControlType.select) {
+          let item = new SelectesFilteredData();
+          item.controlID = element.id;
+          item.data = element.dataSource.data;
+          this.selectDataArray.push(item);
+        }
       });
     }
     this.selectService.setRelationShipsEmmitter$.subscribe(res => {
@@ -67,50 +72,39 @@ export class ReportFormComponent implements OnInit {
 
   setSelectRelationShips(data: SelectEmitObject): void {
 
+    // pressed control
     let control: Control = this.controls.filter(element => ControlType.select && +element.id === data.controlID)[0];
-    let relationShipsData:Relationship[] = this.relationShipsList.filter(el=>el.ControlID);
-    let targetControls: Control[] = [];
-    
-    relationShipsData.forEach(element => {
-      targetControls.push(this.controls.filter(el=>el.id===element.FKControlID)[0]);
-    });
 
+    let relationShipsData: Relationship[] = this.relationShipsList.filter(el => +el.controlID === +data.controlID);
+    //let targetControls: Control[] = [];
 
-    if (control) {
+    relationShipsData.forEach(relationShipsDataElement => {
 
-      // get target control
-      this.relationShipsList.forEach((filterData) => {
-
-           if(data.controlID = filterData.ControlID){
-
-            let filtredDataIds = filterData.FKValuesIDs;
-
-            for (let index = 0; index < this.controls.length; index++) {
-              const control = this.controls[index];
-              if (el => +el.id === +element.FKControlID){
-
-              }
-            }
-
-           }
-
-
-        for (let index = 0; index < this.controls.length; index++) {
-          const el = this.controls[index];
-          if (el => +el.id === +element.FKControlID) {
-            this.selectDataArray[index] = 
-          }
-        }
-      });
-
+      let mainControlID = relationShipsDataElement.controlID;
+      let mainControlValueID = +data.value[0];
+      let targetControl = this.controls.filter(el => el.id === relationShipsDataElement.fkControlID)[0];
       if (targetControl) {
-        let tmp = [];
-        element.FKValuesIDs.forEach(element => {
-          tmp.push(select.dataSource.data[element])
-        });
-        select.dataSource.data = tmp;
+
+        let targetControlNewValues = [];
+
+        let fkValuesIDsFiltered = relationShipsDataElement.fkValuesIDs.filter(el => +el.controlValueID === mainControlValueID);
+
+        if (fkValuesIDsFiltered.length) {
+
+          fkValuesIDsFiltered.forEach(fkValuesIDsElement => {
+            targetControlNewValues.push(targetControl.dataSource.data[fkValuesIDsElement.fkControlValueID]);
+          });
+
+          this.selectService.selectDataFilterEmitter$.emit({ controlID: targetControl.id, data: targetControlNewValues });
+
+        }
+        else{
+          this.selectService.selectDataResetEmitter$.emit(true);
+        }
+
       }
-    }
+    })
+
   }
 
 

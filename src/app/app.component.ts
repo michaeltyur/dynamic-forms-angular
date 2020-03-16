@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsService } from './shared/services/forms.service';
-import { IReport, IContent, IControlBasic, IDataSource, IParameters, InputeControl, IControlLabel, IControl, IControlStyle, IFormControlObject, ISelectControl, IValidatorConfig } from './shared/models/controls-interfaces';
+import { Report, Content, ControlBasic, DataSource, Parameters, nputeControl, ControlLabel, Control, ControlStyle, FormControlObject, SelectControl, ValidatorConfig } from './shared/models/controls-interfaces';
 import { NbThemeService } from '@nebular/theme';
 
 @Component({
@@ -9,7 +9,7 @@ import { NbThemeService } from '@nebular/theme';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  report: IReport;
+  report: Report;
   controlsLoader: boolean;
   title = 'dynamic-forms';
   reportsTitles: string[] = []
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
     this.formsService.getReportsTitles().subscribe((res: string[]) => {
       if (res) {
         this.reportsTitles = res;
-        this.reportID = 1;
+        this.reportID = 4;
        // this.reportID = this.reportsTitles[0];
         this.getForms();
       }
@@ -58,7 +58,7 @@ export class AppComponent implements OnInit {
       if (res) {
         try {
           res["report"].controls = this.sortArrayBy(res["report"].controls);
-          this.report = <IReport>res["report"];
+          this.report = <Report>res["report"];
           this.title = this.report.title;
           console.log(res);
         } catch (error) {
@@ -73,8 +73,8 @@ export class AppComponent implements OnInit {
     });
   }
 
-  sortArrayBy(array: IControl[]): Array<IControl> {
-    let resultArray: IControl[] = [];
+  sortArrayBy(array: Control[]): Array<Control> {
+    let resultArray: Control[] = [];
     let minOrderNumber = Number.MAX_VALUE;
     let currentIndex = 0;
     while (array.length) {

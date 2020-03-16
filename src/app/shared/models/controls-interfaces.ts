@@ -1,20 +1,20 @@
 
 export interface Control {
     id: number;
-    orderNumber:number;
+    orderNumber: number;
     label: ControlLabel;
     controlType: string;
     controlStyle: ControlStyle;
     dataSource: DataSource;
     validatorConfig: ValidatorConfig;
     parameters: Parameters;
-    inputType:string;
-    bindingData:any;
+    inputType: string;
+    bindingData: any;
 }
 
 export interface FormControlObject {
     report: Report;
-    relationshipsList:Relationship[];
+    relationshipsList: Relationship[];
 }
 
 export interface Report {
@@ -36,7 +36,7 @@ export interface SelectControl extends ControlBasic {
 }
 
 export interface DatePickerControl extends ControlBasic {
-    bindingData:Date;
+    bindingData: Date;
 }
 
 
@@ -44,10 +44,10 @@ export interface ControlStyle {
     htmlClass: string;
     fontColor: string;
     backgroundColor: string;
-    width:string;
-    height:string;
-    containerBorderStyle:string;
-    containerWidth:string;
+    width: string;
+    height: string;
+    containerBorderStyle: string;
+    containerWidth: string;
 }
 
 export interface ControlLabel {
@@ -57,7 +57,7 @@ export interface ControlLabel {
 
 export interface DataSource {
     id: string;
-    singleData:any;
+    singleData: any;
     data: any[];
 }
 
@@ -81,14 +81,19 @@ export interface ValidatorConfig {
     params: { [key: string]: string };
 }
 
-export interface Relationship
-{
-    ControlID: number;
-    FKControlID: number;
-    FKValuesIDs: RelationshipValue[];
+export interface Relationship {
+    controlID: number;
+    fkControlID: number;
+    fkValuesIDs: RelationshipValue[];
 }
-export interface RelationshipValue
-{
-    ControlValueID: number;
-    FKControlValueID: number;
+export interface RelationshipValue {
+    controlValueID: number;
+    fkControlValueID: number;
+}
+export class SelectesFilteredData {
+    controlID: number;
+    data: string[];
+    constructor(){
+        this.data = [];
+    }
 }

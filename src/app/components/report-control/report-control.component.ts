@@ -3,6 +3,7 @@ import { Control, ControlLabel, ControlStyle, DataSource, ValidatorConfig, Param
 import { FormGroup } from '@angular/forms';
 import { SelectService } from 'src/app/shared/services/select.service';
 import { SelectEmitObject } from 'src/app/shared/models/selectEmitObject';
+import { ControlType } from '../report-form/report-form.component';
 
 @Component({
   selector: 'app-report-control',
@@ -22,7 +23,7 @@ export class ReportControlComponent implements OnInit {
   orderNumber: number;
   relationships: Relationship[];
   selectData: any[];
-  selectSelected: number = 0;
+  selectSelectedArray: number[] = [];
 
   constructor(private selectService: SelectService) { }
 
@@ -34,16 +35,25 @@ export class ReportControlComponent implements OnInit {
       this.dataSource = <DataSource>this.control.dataSource;
       this.validatorConfig = <ValidatorConfig>this.control.validatorConfig;
       this.parameters = <Parameters>this.control.parameters;
-      //this.selectData = this.control.dataSource.data;
-      
+      this.selectData = this.control.dataSource.data;
+
+      if (this.control.controlType === ControlType.select) {
+        this.selectSelectedArray[0] = 0;
+      }
+
       // Emitters
-      this.selectService.selectDataResetEmitter$.subscribe(()=>this.selectDataReset());
-      this.selectService.selectDataFilterEmitter$.subscribe((data)=>this.selectDataFilter(data));
+      this.selectService.selectDataResetEmitter$.subscribe(() => this.selectDataReset());
+      this.selectService.selectDataFilterEmitter$.subscribe((res) => {
+        //this.selectDataFilter(res);
+        if (+res.controlID === +this.control.id) {
+          this.selectData = res.data;
+        }
+      });
     }
   }
 
   setRelationShips(): void {
-    let data = new SelectEmitObject(this.control.id, this.selectSelected);
+    let data = new SelectEmitObject(this.control.id, this.selectSelectedArray);
     this.selectService.setRelationShipsEmmitter$.emit(data);
   }
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { IReport,IContent,IControlBasic,IDataSource,IParameters,InputeControl,IControlLabel,IControl,IControlStyle,IFormControlObject,ISelectControl,IValidatorConfig } from '../models/controls-interfaces';
+import { Report,Content,ControlBasic,DataSource,Parameters,nputeControl,ControlLabel,Control,ControlStyle,FormControlObject,SelectControl,ValidatorConfig } from '../models/controls-interfaces';
 
 
 @Injectable({
@@ -17,9 +17,9 @@ export class FormsService {
     return this.http.get<string[]>(url);
   }
 
-  getForms(reportID: number): Observable<IFormControlObject> {
+  getForms(reportID: number): Observable<FormControlObject> {
     let url = "/api/DynamicForms/GetForms?request=" + reportID;
-    return this.http.get<IFormControlObject>(url);
+    return this.http.get<FormControlObject>(url);
   }
   
 }

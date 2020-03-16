@@ -1,8 +1,8 @@
 export class SelectEmitObject {
     controlID: number;
-    valueID: number;
-    constructor(controlID: number, valueID: number) {
+    value:any[];
+    constructor(controlID: number, value) {
         this.controlID = controlID;
-        this.valueID = valueID;
+        this.value = value;
     }
 }
